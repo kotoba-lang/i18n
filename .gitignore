@@ -1,0 +1,7 @@
+.cpcache/
+.clj-kondo/.cache/
+.lsp/.cache/
+.cljs_node_repl/
+target/
+*.class
+.DS_Store

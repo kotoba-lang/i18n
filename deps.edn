@@ -1,0 +1,24 @@
+{:paths ["src" "resources"]
+ ;; Core (i18n.core/plural/registry/messages/tm-import) is zero third-party
+ ;; runtime deps — portable .cljc (JVM, ClojureScript, SCI, babashka), same
+ ;; split as dot/jsonlogic/toml. i18n.re-frame/i18n.reagent build on
+ ;; shitsuke's re-frame/reagent seam; real reagent/re-frame stay shitsuke's
+ ;; OWN :cljs alias (build/dev only) — never a hard dep of this library, so
+ ;; a JVM-only consumer of i18n.core never pulls a UI framework transitively.
+ :deps {io.github.kotoba-lang/shitsuke
+        {:git/url "https://github.com/kotoba-lang/shitsuke.git"
+         :git/sha "d7988c24f5cb37074b6bfc1f0c2e223f4e218f84"}}
+ :aliases
+ {:test  {:extra-paths ["test"]
+          :extra-deps {io.github.cognitect-labs/test-runner
+                       {:git/tag "v0.5.1" :git/sha "dfb30dd"}}
+          :main-opts ["-m" "cognitect.test-runner"]
+          :exec-fn cognitect.test-runner.api/test}
+  ;; monorepo dev (checked out at orgs/kotoba-lang/i18n, sibling to
+  ;; orgs/kotoba-lang/shitsuke): `clojure -M:local:test`.
+  :local {:override-deps {io.github.kotoba-lang/shitsuke {:local/root "../shitsuke"}}}
+  ;; real reagent/re-frame for browser builds that :require i18n.re-frame /
+  ;; i18n.reagent directly (same split as liquid-glass-ui/chobo/mise/senden).
+  :cljs  {:extra-deps {org.clojure/clojurescript {:mvn/version "1.11.132"}
+                       reagent/reagent           {:mvn/version "1.2.0"}
+                       re-frame/re-frame         {:mvn/version "1.4.3"}}}}}
