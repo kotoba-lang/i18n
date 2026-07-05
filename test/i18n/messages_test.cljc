@@ -2,11 +2,13 @@
   "Exercises defmessages against the real resources/i18n/messages/en.edn —
   the same resource an app would point at, generating the compile-time
   message API (the paraglide-equivalent surface) for this test namespace."
-  (:require [clojure.test :refer [deftest is use-fixtures]]
+  (:require [clojure.test :refer [deftest is testing use-fixtures]]
             [i18n.core :as core]
-            [i18n.messages :refer [defmessages]]))
+            [i18n.messages :refer [defmessages embed-catalog]]))
 
 (defmessages "i18n/messages/en.edn")
+
+(def embedded-en (embed-catalog "i18n/messages/en.edn"))
 
 (use-fixtures :each (fn [t] (t) (core/set-locale! :en)))
 
@@ -35,3 +37,9 @@
                                       :other "{count} tasks"}})
   (is (= "1 task"   (todos-count {:count 1})))
   (is (= "4 tasks"  (todos-count {:count 4}))))
+
+(deftest embed-catalog-inlines-the-same-data-test
+  (is (= "Densha TODO" (:app/title embedded-en)))
+  (testing "usable directly as a register! catalog (the cljs bootstrap path)"
+    (core/register! :en embedded-en)
+    (is (= "Densha TODO" (app-title)))))

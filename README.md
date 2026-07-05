@@ -105,6 +105,28 @@ become the app's fixed, typo-checked message API; other locales are
 registered at runtime via `i18n.core/register!` and don't need their own
 `defmessages` call.
 
+### Getting catalog data into a cljs build (`i18n.messages/embed-catalog`)
+
+On the JVM, registering a catalog is just reading the resource at runtime:
+`(i18n/register! :en (edn/read-string (slurp (io/resource "..."))))`. The
+browser has no classpath, so ClojureScript has no runtime equivalent —
+`embed-catalog` is the compile-time counterpart: it reads the EDN file once,
+at macroexpansion time, and inlines it as a literal map:
+
+```clojure
+(ns myapp.core
+  (:require [i18n.core :as i18n]
+            [i18n.messages :refer [embed-catalog]]))
+
+(i18n/register! :ja (embed-catalog "i18n/messages/ja.edn"))
+(i18n/register! :en (embed-catalog "i18n/messages/en.edn"))
+```
+
+Both catalogs end up bundled directly in the compiled JS (fine for a
+handful of locales/keys; for many locales, fetch per-locale JSON at runtime
+via `i18n.re-frame`'s `:i18n/catalog-loaded` event instead of embedding all
+of them upfront).
+
 ## Language registry (`i18n.registry`)
 
 ```clojure

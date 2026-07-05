@@ -61,3 +61,18 @@
               `(defn ~(key->sym k)
                  ([] (i18n.core/t ~k))
                  ([params#] (i18n.core/t ~k params#))))))))
+
+#?(:clj
+   (defmacro embed-catalog
+     "Read the EDN catalog at `resource-path` at compile time and embed it as
+     a literal map in the compiled output. The cljs-compatible counterpart to
+     `(clojure.edn/read-string (slurp (clojure.java.io/resource ...)))`, which
+     has no equivalent at runtime in the browser (no classpath there) —
+     ClojureScript macros still run on the JVM at compile time, so reading
+     the file there and inlining the result works on both targets.
+
+     Typical use: `(i18n.core/register! :ja (embed-catalog \"i18n/messages/ja.edn\"))`
+     at app init. JVM/babashka-only consumers don't need this — they can read
+     the resource at runtime instead."
+     [resource-path]
+     (resource->catalog resource-path)))
