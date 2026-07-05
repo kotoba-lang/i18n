@@ -89,7 +89,14 @@ crash.
 
 ```clojure
 (ns myapp.messages
-  (:require [i18n.messages :refer [defmessages]]))
+  ;; :include-macros true is REQUIRED in ClojureScript (harmless/ignored on
+  ;; the JVM) — it pulls in i18n.messages as both a macro source (for
+  ;; defmessages) and a compiled runtime cljs dependency. Without it, plain
+  ;; `:refer [defmessages]` fails to resolve the macro at all under cljs,
+  ;; and bare `:require-macros [i18n.messages :refer [defmessages]]` compiles
+  ;; but leaves the macro-generated i18n.core/t calls as unresolved vars
+  ;; under :advanced optimization (verified against a real shadow-cljs app).
+  (:require [i18n.messages :refer [defmessages] :include-macros true]))
 
 (defmessages "i18n/messages/en.edn")
 ;; => generates (defn app-title ([] ...) ([params] ...))
@@ -104,6 +111,16 @@ crash.
 become the app's fixed, typo-checked message API; other locales are
 registered at runtime via `i18n.core/register!` and don't need their own
 `defmessages` call.
+
+**On "compile-time checked"**: an unknown key (e.g. calling a renamed/typo'd
+generated fn) is reported at compile time as an `:undeclared-var` diagnostic
+naming the exact file/line — a real static check, not a silent runtime
+"{missing:k}". By default ClojureScript reports this as a **warning**, not a
+build-halting error, under both `compile` and `:advanced`-optimized
+`release` builds (verified). CI setups that want a hard failure (matching
+paraglide/TypeScript's usual behavior) should grep build output for
+`WARNING` / `:undeclared-var` and fail the job, or configure Closure's
+warning-to-error promotion.
 
 ### Getting catalog data into a cljs build (`i18n.messages/embed-catalog`)
 

@@ -15,7 +15,15 @@
   they call `i18n.core/t` with the key, so `set-locale!` at runtime still
   switches what they render. What's fixed at compile time is only the *set
   of keys* (an unknown key is a compile error, giving the same typo-safety
-  paraglide's generated functions give), not the translated text itself."
+  paraglide's generated functions give), not the translated text itself.
+
+  ClojureScript consumers MUST require this ns with `:include-macros true`
+  (e.g. `(:require [i18n.messages :refer [defmessages] :include-macros
+  true])`) — plain `:refer` fails to resolve the macro under cljs at all,
+  and bare `:require-macros` compiles but leaves the generated i18n.core/t
+  calls as unresolved vars under :advanced optimization, because
+  :require-macros alone never adds i18n.core as a compiled runtime
+  dependency (verified against a real shadow-cljs app; see README)."
   #?(:clj  (:require [clojure.edn :as edn]
                       [clojure.java.io :as io]
                       [clojure.string :as str])
