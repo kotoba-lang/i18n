@@ -12,7 +12,7 @@
   (\"app.title\" \"auth.welcome\"); `i18n.core/register!` wants namespaced
   keywords (:app/title :auth/welcome). The split point is the LAST dot, so
   deeper keys like \"todo.priority.low\" become :todo.priority/low."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (defn- flat-key->kw [s]
   (let [idx (str/last-index-of s ".")]
