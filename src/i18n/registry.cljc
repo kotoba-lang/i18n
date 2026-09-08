@@ -12,7 +12,7 @@
   Tier meaning (mirrors the etzhayyim registry's `tierLimit`): tier 1 = top
   25 languages by combined speaker count / web UI coverage; tier 2+ =
   everything else, roughly ordered by same."
-  (:require [clojure.string :as str]))
+  (:require [kotoba.lang.text :as str]))
 
 (def ^:private tier-1
   ;; [code english-name native-name dir]
@@ -115,9 +115,9 @@
   "Case-insensitive substring match against code/name/native-name — mirrors
   etzhayyim.i18n's `GetLanguageRegistry {search: ...}` query shape."
   [q]
-  (let [needle (str/lower-case q)]
+  (let [needle (str/lower q)]
     (filter (fn [{:i18n.lang/keys [code] disp-name :i18n.lang/name native-name :i18n.lang/native-name}]
-              (some #(str/includes? (str/lower-case (str %)) needle)
+              (some #(str/includes? (str/lower (str %)) needle)
                     [(name code) disp-name native-name]))
             (all))))
 

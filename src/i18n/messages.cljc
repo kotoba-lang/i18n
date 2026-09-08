@@ -26,7 +26,7 @@
   dependency (verified against a real shadow-cljs app; see README)."
   #?(:clj  (:require [clojure.edn :as edn]
                       [clojure.java.io :as io]
-                      [clojure.string :as str])
+                      [kotoba.lang.text :as str])
      ;; Not used directly in this file's cljs runtime code — required so
      ;; i18n.core is guaranteed compiled/available wherever a consumer
      ;; :requires this .cljc namespace to pull in the defmessages macro,
