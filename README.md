@@ -228,6 +228,6 @@ listener hydrates it.
 ## Test
 
 ```
-clojure -M:test          # standalone (fetches shitsuke via git)
-clojure -M:local:test    # monorepo dev, sibling ../shitsuke checkout
+kbb -M:test          # standalone (fetches shitsuke via git)
+kbb -M:local:test    # monorepo dev, sibling ../shitsuke checkout
 ```
