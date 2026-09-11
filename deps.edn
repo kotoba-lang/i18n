@@ -20,7 +20,7 @@
           :main-opts ["-m" "cognitect.test-runner"]
           :exec-fn cognitect.test-runner.api/test}
   ;; monorepo dev (checked out at orgs/kotoba-lang/i18n, sibling to
-  ;; orgs/kotoba-lang/shitsuke): `clojure -M:local:test`.
+  ;; orgs/kotoba-lang/shitsuke): `kbb -M:local:test`.
   :local {:override-deps {io.github.kotoba-lang/shitsuke {:local/root "../shitsuke"}}}
   ;; real reagent/re-frame for browser builds that :require i18n.re-frame /
   ;; i18n.reagent directly (same split as liquid-glass-ui/chobo/mise/senden).
