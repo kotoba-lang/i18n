@@ -1,5 +1,5 @@
 (ns i18n.core-test
-  (:require [clojure.test :refer [deftest is testing use-fixtures]]
+  (:require [kotoba.test :refer [deftest is testing use-fixtures]]
             [i18n.core :as i18n]))
 
 (use-fixtures :each (fn [t] (i18n/clear!) (t) (i18n/clear!)))

@@ -1,5 +1,5 @@
 (ns i18n.plural-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [i18n.plural :as plural]))
 
 (deftest other-only-family-test

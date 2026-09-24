@@ -1,5 +1,5 @@
 (ns i18n.tm-import-test
-  (:require [clojure.test :refer [deftest is testing]]
+  (:require [kotoba.test :refer [deftest is testing]]
             [i18n.tm-import :as tm]))
 
 (deftest export-messages->catalog-test

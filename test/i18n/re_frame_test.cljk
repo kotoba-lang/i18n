@@ -3,7 +3,7 @@
   synchronous mini re-frame runtime (the :clj side of the
   shitsuke.re-frame.core seam) — same handlers a cljs browser build would
   register against real re-frame, exercised here without a browser."
-  (:require [clojure.test :refer [deftest is testing use-fixtures]]
+  (:require [kotoba.test :refer [deftest is testing use-fixtures]]
             [shitsuke.re-frame.core :as rf]
             [i18n.core :as core]
             [i18n.re-frame :as i18n-rf]))
