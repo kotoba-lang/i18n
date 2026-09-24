@@ -24,7 +24,7 @@
   calls as unresolved vars under :advanced optimization, because
   :require-macros alone never adds i18n.core as a compiled runtime
   dependency (verified against a real shadow-cljs app; see README)."
-  #?(:clj  (:require [clojure.edn :as edn]
+  #?(:clj  (:require [kotoba.lang.edn :as edn]
                       [clojure.java.io :as io]
                       [kotoba.lang.text :as str])
      ;; Not used directly in this file's cljs runtime code — required so
