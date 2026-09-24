@@ -2,7 +2,7 @@
   "Exercises defmessages against the real resources/i18n/messages/en.edn —
   the same resource an app would point at, generating the compile-time
   message API (the paraglide-equivalent surface) for this test namespace."
-  (:require [clojure.test :refer [deftest is testing use-fixtures]]
+  (:require [kotoba.test :refer [deftest is testing use-fixtures]]
             [i18n.core :as core]
             [i18n.messages :refer [defmessages embed-catalog]]))
 
